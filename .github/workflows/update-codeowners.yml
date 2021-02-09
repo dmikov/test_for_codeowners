@@ -1,0 +1,27 @@
+name: 'update-codeowners'
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - name: create CODEOWNERS
+        id: codeowners
+        uses: dmikov/github-action-codeowners-last@main
+        with:
+          number_of_code_owners: 2
+          directory_to_track: /src
+      - name: commit CODEOWNERS
+        if: ${{ steps.codeowners.outputs.file }}
+        uses: EndBug/add-and-commit@v5
+        with:
+          message: 'commit CODEOWNERS'
+          add: ${{ steps.codeowners.outputs.file }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
