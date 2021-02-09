@@ -16,7 +16,7 @@ jobs:
         uses: dmikov/github-action-codeowners-last@main
         with:
           number_of_code_owners: 2
-          directory_to_track: /src
+          directory_to_track: src
       - name: commit CODEOWNERS
         if: ${{ steps.codeowners.outputs.file }}
         uses: EndBug/add-and-commit@v5
